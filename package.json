@@ -1,0 +1,128 @@
+{
+  "name": "forma",
+  "productName": "Forma",
+  "version": "1.0.0",
+  "description": "Create without limits. An independent offline graphic design studio.",
+  "author": "Forma contributors",
+  "license": "MIT",
+  "overrides": {
+    "global-agent": "4.1.3"
+  },
+  "main": "dist-electron/electron/main.js",
+  "scripts": {
+    "dev": "npm run build && electron .",
+    "start": "electron .",
+    "lint": "eslint src electron tests scripts",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.electron.json",
+    "test": "vitest run",
+    "test:e2e": "node scripts/e2e.cjs",
+    "test:packaged": "node scripts/packaged-test.cjs",
+    "assets": "node scripts/assets.cjs",
+    "build": "npm run typecheck && tsc -p tsconfig.electron.json && vite build",
+    "package": "npm run verify:assets && npm run build && electron-builder --win nsis portable --x64 --publish never",
+    "verify:assets": "node scripts/verify-assets.cjs",
+    "checksums": "node scripts/checksums.cjs",
+    "licenses": "node scripts/licenses.cjs"
+  },
+  "dependencies": {
+    "fflate": "0.8.3",
+    "image-size": "2.0.4",
+    "onnxruntime-web": "1.30.0",
+    "pngjs": "7.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.0",
+    "@types/node": "26.6.5",
+    "@types/pngjs": "6.0.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "electron": "44.7.0",
+    "electron-builder": "26.15.3",
+    "eslint": "10.12.0",
+    "fabric": "7.4.0",
+    "jspdf": "4.2.1",
+    "lucide-react": "1.55.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "sharp": "0.35.5",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.1",
+    "vite": "8.3.4",
+    "vitest": "5.0.3",
+    "zustand": "5.0.15"
+  },
+  "build": {
+    "appId": "org.forma.studio",
+    "productName": "Forma",
+    "directories": {
+      "output": "release",
+      "buildResources": "assets/brand"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "package.json",
+      "THIRD_PARTY_NOTICES.md",
+      "licenses/**/*",
+      "!node_modules/onnxruntime-web/dist/*.wasm",
+      "!node_modules/onnxruntime-web/dist/*.map"
+    ],
+    "extraResources": [
+      {
+        "from": "assets/models",
+        "to": "models"
+      },
+      {
+        "from": "licenses",
+        "to": "licenses"
+      },
+      {
+        "from": "LICENSE",
+        "to": "LICENSE-Forma.txt"
+      },
+      {
+        "from": "THIRD_PARTY_NOTICES.md",
+        "to": "THIRD_PARTY_NOTICES.md"
+      },
+      {
+        "from": "node_modules/onnxruntime-web/dist",
+        "to": "onnx",
+        "filter": [
+          "ort-wasm-simd-threaded.wasm",
+          "ort-wasm-simd-threaded.asyncify.wasm"
+        ]
+      }
+    ],
+    "npmRebuild": false,
+    "win": {
+      "icon": "assets/brand/icon.ico",
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "signAndEditExecutable": true,
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "nsis": {
+      "artifactName": "Forma-Setup-${version}.${ext}",
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "portable": {
+      "artifactName": "Forma-Portable-${version}.${ext}"
+    },
+    "fileAssociations": [
+      {
+        "ext": "forma",
+        "name": "Forma design",
+        "role": "Editor",
+        "icon": "assets/brand/icon.ico"
+      }
+    ]
+  }
+}
+

@@ -1,0 +1,16 @@
+# Architecture
+
+`src/` contains the React interface. Zustand stores global UI preferences, busy state and notifications. `Editor` in `src/editor.ts` owns a Fabric scene, selection and bounded full-document history. React receives scene summaries, not per-frame pointer updates. Fabric handles drag, transform and text interactions without React redraws on each movement. Text changes debounce history snapshots.
+
+Pages store logical pixel dimensions and independent scenes/backgrounds. Canvas viewport zoom changes display dimensions; exports construct and dispose a separate StaticCanvas so output is independent of viewport zoom or selection. PNG and JPEG use Chromium's canvas encoders, SVG uses Fabric vectors plus embedded fonts, and jsPDF composes rasterized pages. Jobs yield between pages and reject oversized output. Multiple image/vector pages form a bounded ZIP bundle using fflate. Print presets and custom DPI convert to RGB pixels; there is no CMYK workflow.
+
+`electron/preload.ts` exposes frozen, explicitly named methods. `electron/main.ts` validates the sending WebContents and top-level frame, then validates IDs, settings, document data, MIME, sizes and format. Renderer URLs cannot choose file paths: save/import/export paths come from native dialogs, while recents and recovery paths are internally owned. The app loads a packaged file, denies navigation/windows/permissions and blocks remote network resources. No normal-operation HTTP or WebSocket server exists.
+
+`electron/archive.ts` writes ZIP containers with JSON metadata and SHA-256-deduplicated assets. Reads validate entry names, counts, expanded sizes, nesting, embedded sources, dimensions and format version. Assets are never extracted to caller-selected paths. Saves use a same-directory temporary file and rename. Recovery saves are serialized to prevent conflicting writes, and normal close awaits recovery. Filesystem errors are surfaced to the user.
+
+`src/gpu-worker.ts` attempts the bundled ONNX Runtime WebGPU/WASM backend after detecting an adapter. `src/ai.ts` terminates failed or timed-out GPU jobs and falls back to `electron/ai-worker.ts`, a disposable worker thread running the telemetry-free WebAssembly CPU backend. Fixed IPC reads supply model/runtime bytes; no URL fetching is required. CPU jobs parse a bounded PNG and use pngjs for full-resolution cutout/mask encoding. Both paths resample RGB, normalize the bundled U²-NetP output and preserve original alpha. Errors leave the original image intact. `electron/pixels.ts` has alpha/channel indexing regression tests. No native ONNX libraries are shipped.
+
+Fonts, original brand assets and template designs are local. Gallery previews render lazily through a serialized thumbnail queue. Imported images and fonts embed in projects. History has a snapshot count and total character budget; page/image/export pixel limits constrain allocations. OS/native out-of-memory termination cannot always be caught, so recovery remains essential.
+
+Development and build dependencies are not required at runtime. `scripts/assets.cjs` is a build-only restorer and verifier; the installed app never invokes it. CI builds the production bundle after e2e tests, ensuring the test-only editor hook is absent from released executables.
+

@@ -1,0 +1,3 @@
+const fs = require('node:fs/promises'), path = require('node:path'), crypto = require('node:crypto');
+async function main() { const version = require('../package.json').version; const dir = path.resolve(__dirname, '../release'); const names = [`Forma-Setup-${version}.exe`, `Forma-Portable-${version}.exe`]; const lines = []; for (const n of names) { const b = await fs.readFile(path.join(dir, n)); if (b.length < 1000000 || b.subarray(0, 2).toString() !== 'MZ') throw new Error('Invalid executable: ' + n); lines.push(crypto.createHash('sha256').update(b).digest('hex') + '  ' + n); } await fs.writeFile(path.join(dir, 'SHA256SUMS.txt'), lines.join('\n') + '\n'); console.log(lines.join('\n')); }
+main().catch(e => { console.error(e); process.exit(1); });

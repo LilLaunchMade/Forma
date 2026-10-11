@@ -1,0 +1,16 @@
+name: Feature request
+description: Suggest an offline creative workflow improvement.
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What creative task is difficult today?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed behavior
+      description: Include a concrete example and how it should work offline.
+    validations:
+      required: true

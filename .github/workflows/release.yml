@@ -1,0 +1,52 @@
+name: Release Forma
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+jobs:
+  release:
+    runs-on: windows-latest
+    timeout-minutes: 40
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Validate version tag
+        shell: pwsh
+        run: |
+          $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          if ($env:GITHUB_REF_NAME -ne "v$version") { throw 'Tag must match package.json version.' }
+          if ($version -notmatch '^\d+\.\d+\.\d+$') { throw 'Only stable semantic versions are supported by this workflow.' }
+      - run: npm install --global npm@11.6.2
+      - run: npm ci
+      - run: npm run verify:assets
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm audit --audit-level=high
+      - run: npm run licenses
+      - run: npm run build
+      - run: npm run test:e2e
+      - run: npm run package
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - run: npm run test:packaged
+      - run: npm run checksums
+      - name: Verify and publish release assets
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          $installer = "release/Forma-Setup-$version.exe"
+          $portable = "release/Forma-Portable-$version.exe"
+          foreach ($file in @($installer, $portable, 'release/SHA256SUMS.txt')) {
+            if (-not (Test-Path -LiteralPath $file)) { throw "Missing release asset: $file" }
+          }
+          gh release create $env:GITHUB_REF_NAME $installer $portable release/SHA256SUMS.txt --repo $env:GITHUB_REPOSITORY --title "Forma $version" --generate-notes --notes-file docs/RELEASE_NOTES.md
+          if ($LASTEXITCODE -ne 0) { throw 'GitHub release upload failed.' }

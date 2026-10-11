@@ -1,0 +1,31 @@
+name: Bug report
+description: Report a reproducible problem in Forma.
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Include expected and actual behavior. Do not upload private projects or secrets.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Forma and Windows version
+    validations:
+      required: true
+  - type: dropdown
+    id: distribution
+    attributes:
+      label: Distribution
+      options: [Installer, Portable, Development]
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots, errors and minimized sample
