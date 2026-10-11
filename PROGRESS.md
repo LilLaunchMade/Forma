@@ -11,7 +11,7 @@ Updated 2026-10-11. Source and Windows builds exist; this is a release candidate
 - Bundled U2NetP model, telemetry-free ONNX WebAssembly CPU worker, automatic WebGPU worker and tested failure fallback. Manual erase/restore with history and original/cutout preview.
 - Scoped validated IPC, sandboxed isolated renderer, restrictive CSP, blocked remote resource requests, no runtime HTTP server.
 - MIT original code, model/font/dependency notices, README screenshots, contribution/security/format/architecture/publishing documents.
-- Initialized Git main branch, pinned Windows build and tag-release GitHub Actions workflows. No remote repository, commits, pushes or published releases.
+- Git main branch and initial source commit prepared. Public repository created at https://github.com/LilLaunchMade/forma with pinned Windows build and tag-release GitHub Actions workflows. Source push triggers the build; no stable release has been published.
 
 ## Verification completed
 - Build, TypeScript and ESLint pass.
@@ -26,15 +26,16 @@ Updated 2026-10-11. Source and Windows builds exist; this is a release candidate
 
 ## Current blocker / interrupted verification
 - scripts/packaged-test.cjs reached portable launcher testing and has not completed. A Forma-Portable launcher process remained; the main Forma process/data directory was not observed in the last shell inspection. Investigate launch/extraction/test process behavior; do not claim portable or installer verification passed.
-- Desktop investigation through the Computer Use skill was stopped by the user's physical Escape key. No further Computer Use operations were performed.
+- Manual desktop investigation was interrupted before the portable launch issue was resolved.
 - A pointer integration assertion was intermittent after the export dialog. Layout-aware coordinate capture and diagnostic screenshot were added; the latest full suite passed. Keep this concern visible until repeatability is established.
 
 ## Next steps
 1. Resume portable launch investigation, clean up only identified test processes, and make packaged-test pass; then test silent installer launch/uninstall and portable recovery persistence.
 2. Validate production automatic WebGPU button as well as packaged CPU inference, verify unsigned Authenticode status and produce SHA256SUMS.txt.
-3. Update release readiness with actual final packaging evidence. Source archive and final distribution summary still need preparation.
+3. Update release readiness with actual final packaging evidence and prepare the final distribution summary. GitHub provides source archives after source publication.
 4. Check on clean Windows 10 and ordinary 8 GB CPU-only hardware; broader driver and memory coverage remains external.
-5. GitHub CLI unavailable here. Follow docs/PUBLISHING.md after maintainer authentication/authorization; hosted workflow success and release attachments remain unverified.
+5. Source publication is authorized to https://github.com/LilLaunchMade/forma. Hosted workflow success and stable release attachments remain unverified; inspect Actions and resolve all release gates before tagging.
 
-## Environment
-Windows 11 x64; bundled Node 24. npm shim in ../../work/tooling/bin. Build commands require that directory in PATH. Network operations need Node system CA support and approved execution. Vite worker realpath access requires elevated execution in this sandbox. Generated directories node_modules, dist, dist-electron, release and test-results are gitignored. User-facing artifacts remain under outputs/forma.
+## Development environment
+Windows 11 x64, Node 24 and npm 11. Generated directories node_modules, dist, dist-electron, release and test-results are gitignored. See README.md for build instructions.
+

@@ -12,5 +12,6 @@
 - System fonts depend on the receiving computer. Use bundled fonts or embed appropriately licensed imported fonts for portability.
 - Dashboard removal can keep the saved `.forma` file or move it to the Recycle Bin. Recovery-only deletion is permanent for that recovery file.
 - No on-canvas snapping guides, ruler/grid controls, advanced mesh gradients, video, collaboration or cloud sync are included. These were not required for the initial desktop scope.
-- Public GitHub repository, hosted workflow results and published release attachments cannot be verified until a maintainer authenticates and authorizes publication.
+- The source repository is public at https://github.com/LilLaunchMade/forma. Hosted workflow success and published release attachments remain release gates; no stable release has been published.
+
 

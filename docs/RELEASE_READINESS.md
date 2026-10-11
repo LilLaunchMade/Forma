@@ -19,6 +19,7 @@ Remaining gates:
 - Final SHA-256 checksum file and source distribution archive.
 - Confirm repeatability of the pointer test, which had intermittent failures after closing the export modal; the latest full suite passed with layout-aware coordinate capture.
 - Clean Windows 10, ordinary 8 GB CPU-only hardware, broader memory/performance and GPU-driver coverage.
-- Authenticated public GitHub repository, remote build/release workflow execution and attachment verification.
+- Remote build/release workflow completion and release attachment verification. Source repository created at https://github.com/LilLaunchMade/forma; source push triggers the Windows build.
 
-No repository or release has been published. See PROGRESS.md for exact continuation steps and docs/KNOWN_LIMITATIONS.md for product limits.
+Source is being published to https://github.com/LilLaunchMade/forma. No stable release has been published. See PROGRESS.md for exact continuation steps and docs/KNOWN_LIMITATIONS.md for product limits.
+

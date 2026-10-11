@@ -27,7 +27,7 @@ Forma combines an editable canvas, local project files, original templates and o
 
 Windows 10 or 11, 64-bit x64; 8 GB RAM recommended for larger projects. A dedicated GPU is optional. Windows ARM64 and 32-bit builds are not included.
 
-Download the verified files from the repository's Releases page once the repository has been published:
+Download the verified files from [GitHub Releases](https://github.com/LilLaunchMade/forma/releases) once a release has passed the documented gates. Source publication does not mean executables have been released:
 
 1. `Forma-Setup-1.0.0.exe`: run the installer, choose the destination, and start Forma from the Start menu. Uninstall through Windows Settings or the installed uninstaller.
 2. `Forma-Portable-1.0.0.exe`: place in a writable folder and run it. Settings and recovery data live in `FormaData` beside the portable executable. Keep that folder when moving the portable app.
@@ -86,4 +86,5 @@ Installed user data: `%APPDATA%\Forma` (Electron's application user-data directo
 Read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), [SECURITY.md](SECURITY.md), [architecture](docs/ARCHITECTURE.md), [project format](docs/FORMAT.md), and [known limitations](docs/KNOWN_LIMITATIONS.md).
 
 Original Forma source, geometric F logo and original templates: [MIT](LICENSE). Open fonts: SIL OFL 1.1. Lucide: ISC. ONNX Runtime: MIT. U²-NetP: Apache-2.0. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and `licenses/` for the full dependency inventory and notices. No Canva code, private APIs or assets are used.
+
 

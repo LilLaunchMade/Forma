@@ -1,6 +1,6 @@
 # Publishing Forma
 
-No GitHub repository or release is created by preparing these files. Publication requires an authenticated maintainer and authorization. The repository name is `forma`.
+Source repository: [LilLaunchMade/forma](https://github.com/LilLaunchMade/forma). A stable release has not been published. The commands below describe the maintainer publishing workflow; do not recreate the existing repository.
 
 Install GitHub CLI if necessary, then run these commands from the source root:
 
@@ -34,3 +34,4 @@ gh release create v1.0.0 .\release\Forma-Setup-1.0.0.exe .\release\Forma-Portabl
 ```
 
 If verification is incomplete, use a prerelease tag/version and label it clearly instead of publishing an unverified stable 1.0.0. Do not claim workflows succeeded or files are hosted until GitHub reports success.
+
